@@ -1,11 +1,22 @@
 function PDTimer() {
+    // Variables for time
+    var date = new Date();
+    date.setMinutes(25);
+    date.setSeconds(0);
+
+    var m, s;
     var i = document.getElementById("interval");
     var p = document.getElementById("period");
-    
-    // Variables for time
-    var d = new Date();
-    d.setMinutes(25);
     var time = document.getElementById("time");
+
+    this.displayTime = function() {
+        m = date.getMinutes();
+        s = date.getSeconds();
+        document.getElementById("time").innerHTML = m + ":" + s;
+    }
+
+    this.tick = function() {
+    }
 
     this.incrementInterval =  function() {
         console.log("increment interval");
@@ -19,16 +30,14 @@ function PDTimer() {
 
     this.incrementPeriod = function() {
         console.log("incrementPeriod");
-        p.innerHTML++;
-        d.setMinutes(d.getMinutes() + 1);
-        time.innerHTML = d.getMinutes();
+        date.setMinutes(date.getMinutes() + 1);
+        this.displayTime();
     }
     
     this.decrementPeriod = function() {
-        console.log("decrementPeriod");
-        p.innerHTML--;
-        d.setMinutes(d.getMinutes() - 1);
-        time.innerHTML = d.getMinutes();
+        console.log("incrementPeriod");
+        date.setMinutes(date.getMinutes() - 1);
+        this.displayTime();
     }
 }
 
@@ -52,6 +61,15 @@ window.onload = function(){
     })
      
     var pdt = new PDTimer();
+    pdt.displayTime();
 }
+
+
+
+
+
+
+
+
 
 
