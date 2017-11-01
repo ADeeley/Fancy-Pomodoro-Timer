@@ -1,20 +1,17 @@
 var pdt = new Object(),
     // Variables for time
-    date = new Date(),
+    duration = 25,
     isRunning = false,
     target = 0,
-    m = 25, 
-    s = 0,
     i = document.getElementById("interval"),
     p = document.getElementById("period"),
     time = document.getElementById("time");
 
 pdt.startTimer = function() {
-
     let now = Date.now();
-    pdt.target = Date.now() + (date.getMinutes() * 60 * 1000);
-    console.log(now + " ||| " + pdt.target);
-    console.log((pdt.target - now) / 1000);
+    pdt.target = Date.now() + (duration * 60 * 1000);
+    //console.log(now + " ||| " + pdt.target);
+    console.log("time remaining: " + ((pdt.target / 1000)));
     pdt.isRunning = true;
 }
 
@@ -22,11 +19,14 @@ pdt.getTimeRemaining = function() {
     if (pdt.isRunning) {
         let remaining = pdt.target - Date.now();
 
-        var sec = Math.floor(remaining / 1000) % 60;
-        var min = Math.floor(remaining / 1000 / 60);
+        var dateObj = { 
+            sec : Math.floor(remaining / 1000) % 60,
+            min : Math.floor(remaining / 1000 / 60)
+        };
 
-        console.log("min " + min);
-        console.log("sec " + sec);
+        console.log("min " + dateObj.min);
+        console.log("sec " + dateObj.sec);
+
         return dateObj;
     }
     else {
@@ -46,12 +46,12 @@ pdt.decrementInterval = function() {
 
 pdt.incrementPeriod = function() {
     console.log("incrementPeriod");
-    date.setMinutes(date.getMinutes() + 1);
+    duration++;
 }
     
 pdt.decrementPeriod = function() {
     console.log("incrementPeriod");
-    date.setMinutes(date.getMinutes() - 1);
+    duration--;
 }
 
 window.onload = function(){
@@ -75,13 +75,13 @@ window.onload = function(){
      
     var displayTime = document.getElementById("time");
     var startButton = document.getElementById("start");
+
     startButton.addEventListener("click", function() {
         pdt.startTimer();
         // Main loop
         setInterval(function() {
             let remaining = pdt.getTimeRemaining();
-            let time = document.getElementById("time").innerHTML;
-            time = remaining[min] + ":" + remaining[secs];
+            displayTime.innerHTML = remaining.min + ":" + remaining.sec;
         }, 1000);
     });
 
