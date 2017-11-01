@@ -1,17 +1,13 @@
-var pdt = new Object(),
+var pdt = new Object();
     // Variables for time
-    duration = 25,
-    isRunning = false,
-    target = 0,
-    i = document.getElementById("interval"),
-    p = document.getElementById("period"),
-    time = document.getElementById("time");
+    pdt.duration = 25;
+    pdt.interval = 5;
+    pdt.isRunning = false;
+    pdt.target = 0;
 
 pdt.startTimer = function() {
     let now = Date.now();
-    pdt.target = Date.now() + (duration * 60 * 1000);
-    //console.log(now + " ||| " + pdt.target);
-    console.log("time remaining: " + ((pdt.target / 1000)));
+    pdt.target = Date.now() + (pdt.duration * 60 * 1000);
     pdt.isRunning = true;
 }
 
@@ -36,48 +32,59 @@ pdt.getTimeRemaining = function() {
 
 pdt.incrementInterval =  function() {
     console.log("increment interval");
-    i.innerHTML++;
+    pdt.interval++;
 }
 
 pdt.decrementInterval = function() {
     console.log("decrement interval");
-    i.innerHTML--;
+    pdt.interval--;
 }
 
 pdt.incrementPeriod = function() {
     console.log("incrementPeriod");
-    duration++;
+    pdt.duration++;
 }
     
 pdt.decrementPeriod = function() {
     console.log("incrementPeriod");
-    duration--;
+    pdt.duration--;
 }
 
+
 window.onload = function(){
+
+    var displayTime = document.getElementById("time");
+    var startButton = document.getElementById("start");
+    var intervalVal = document.getElementById("interval");
+    var periodVal = document.getElementById("period");
 
     var ii = document.getElementById("incrInterval");
     ii.addEventListener("click", function() {
         pdt.incrementInterval();
+        intervalVal.innerHTML = pdt.interval;
     })
     var di = document.getElementById("decrInterval");
     di.addEventListener("click", function() {
         pdt.decrementInterval();
+        intervalVal.innerHTML = pdt.interval;
     })
     var ip = document.getElementById("incrPeriod");
     ip.addEventListener("click", function() {
         pdt.incrementPeriod();
+        periodVal.innerHTML = pdt.duration;
+        displayTime.innerHTML = pdt.duration + ":00";
     })
     var dp = document.getElementById("decrPeriod");
     dp.addEventListener("click", function() {
         pdt.decrementPeriod();
+        periodVal.innerHTML = pdt.duration;
+        displayTime.innerHTML = pdt.duration + ":00";
     })
      
-    var displayTime = document.getElementById("time");
-    var startButton = document.getElementById("start");
-
     startButton.addEventListener("click", function() {
         pdt.startTimer();
+        let remaining = pdt.getTimeRemaining();
+        displayTime.innerHTML = remaining.min + ":" + remaining.sec;
         // Main loop
         setInterval(function() {
             let remaining = pdt.getTimeRemaining();
