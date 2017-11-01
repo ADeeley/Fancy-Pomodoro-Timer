@@ -1,44 +1,57 @@
-function PDTimer() {
+var pdt = new Object(),
     // Variables for time
-    var date = new Date();
-    date.setMinutes(25);
-    date.setSeconds(0);
+    date = new Date(),
+    isRunning = false,
+    target = 0,
+    m = 25, 
+    s = 0,
+    i = document.getElementById("interval"),
+    p = document.getElementById("period"),
+    time = document.getElementById("time");
 
-    var m, s;
-    var i = document.getElementById("interval");
-    var p = document.getElementById("period");
-    var time = document.getElementById("time");
+pdt.startTimer = function() {
 
-    this.displayTime = function() {
-        m = date.getMinutes();
-        s = date.getSeconds();
-        document.getElementById("time").innerHTML = m + ":" + s;
+    let now = Date.now();
+    pdt.target = Date.now() + (date.getMinutes() * 60 * 1000);
+    console.log(now + " ||| " + pdt.target);
+    console.log((pdt.target - now) / 1000);
+    pdt.isRunning = true;
+}
+
+pdt.getTimeRemaining = function() {
+    if (pdt.isRunning) {
+        let remaining = pdt.target - Date.now();
+
+        var sec = Math.floor(remaining / 1000) % 60;
+        var min = Math.floor(remaining / 1000 / 60);
+
+        console.log("min " + min);
+        console.log("sec " + sec);
+        return dateObj;
     }
-
-    this.tick = function() {
+    else {
+        return undefined;
     }
+}
 
-    this.incrementInterval =  function() {
-        console.log("increment interval");
-        i.innerHTML++;
-    }
+pdt.incrementInterval =  function() {
+    console.log("increment interval");
+    i.innerHTML++;
+}
 
-    this.decrementInterval = function() {
-        console.log("decrement interval");
-        i.innerHTML--;
-    }
+pdt.decrementInterval = function() {
+    console.log("decrement interval");
+    i.innerHTML--;
+}
 
-    this.incrementPeriod = function() {
-        console.log("incrementPeriod");
-        date.setMinutes(date.getMinutes() + 1);
-        this.displayTime();
-    }
+pdt.incrementPeriod = function() {
+    console.log("incrementPeriod");
+    date.setMinutes(date.getMinutes() + 1);
+}
     
-    this.decrementPeriod = function() {
-        console.log("incrementPeriod");
-        date.setMinutes(date.getMinutes() - 1);
-        this.displayTime();
-    }
+pdt.decrementPeriod = function() {
+    console.log("incrementPeriod");
+    date.setMinutes(date.getMinutes() - 1);
 }
 
 window.onload = function(){
@@ -60,9 +73,20 @@ window.onload = function(){
         pdt.decrementPeriod();
     })
      
-    var pdt = new PDTimer();
-    pdt.displayTime();
+    var displayTime = document.getElementById("time");
+    var startButton = document.getElementById("start");
+    startButton.addEventListener("click", function() {
+        pdt.startTimer();
+        // Main loop
+        setInterval(function() {
+            let remaining = pdt.getTimeRemaining();
+            let time = document.getElementById("time").innerHTML;
+            time = remaining[min] + ":" + remaining[secs];
+        }, 1000);
+    });
+
 }
+
 
 
 
