@@ -19,10 +19,8 @@ pdt.getTimeRemaining = function() {
             sec : Math.floor(remaining / 1000) % 60,
             min : Math.floor(remaining / 1000 / 60)
         };
-
         console.log("min " + dateObj.min);
         console.log("sec " + dateObj.sec);
-
         return dateObj;
     }
     else {
@@ -52,46 +50,47 @@ pdt.decrementPeriod = function() {
 
 
 window.onload = function(){
-
     var displayTime = document.getElementById("time");
     var startButton = document.getElementById("start");
     var intervalVal = document.getElementById("interval");
     var periodVal = document.getElementById("period");
 
-    var ii = document.getElementById("incrInterval");
-    ii.addEventListener("click", function() {
-        pdt.incrementInterval();
-        intervalVal.innerHTML = pdt.interval;
-    })
-    var di = document.getElementById("decrInterval");
-    di.addEventListener("click", function() {
-        pdt.decrementInterval();
-        intervalVal.innerHTML = pdt.interval;
-    })
-    var ip = document.getElementById("incrPeriod");
-    ip.addEventListener("click", function() {
-        pdt.incrementPeriod();
-        periodVal.innerHTML = pdt.duration;
-        displayTime.innerHTML = pdt.duration + ":00";
-    })
-    var dp = document.getElementById("decrPeriod");
-    dp.addEventListener("click", function() {
-        pdt.decrementPeriod();
-        periodVal.innerHTML = pdt.duration;
-        displayTime.innerHTML = pdt.duration + ":00";
-    })
-     
-    startButton.addEventListener("click", function() {
-        pdt.startTimer();
-        let remaining = pdt.getTimeRemaining();
-        displayTime.innerHTML = remaining.min + ":" + remaining.sec;
-        // Main loop
-        setInterval(function() {
-            let remaining = pdt.getTimeRemaining();
-            displayTime.innerHTML = remaining.min + ":" + remaining.sec;
-        }, 1000);
-    });
-
+    var body = document.getElementById("btns");
+    body.addEventListener("click", function(e) {
+        switch (e.target.id) {
+            case "incrInterval":
+                pdt.incrementInterval();
+                intervalVal.innerHTML = pdt.interval;
+                break;
+            case "decrInterval":
+                pdt.decrementInterval();
+                intervalVal.innerHTML = pdt.interval;
+                break;
+            case "incrPeriod":
+                pdt.incrementPeriod();
+                periodVal.innerHTML = pdt.duration;
+                displayTime.innerHTML = pdt.duration + ":00";
+                break;
+            case "decrPeriod":
+                pdt.decrementPeriod();
+                periodVal.innerHTML = pdt.duration;
+                displayTime.innerHTML = pdt.duration + ":00";
+                break;
+            case "start":
+                pdt.startTimer();
+                let remaining = pdt.getTimeRemaining();
+                displayTime.innerHTML = remaining.min + ":" + remaining.sec;
+                // Main loop
+                setInterval(function() {
+                    let remaining = pdt.getTimeRemaining();
+                    displayTime.innerHTML = remaining.min + ":" + remaining.sec;
+                }, 1000);
+                break;
+            case "reset":
+                console.log("Reset pressed");
+                break;
+        }
+    }, true);
 }
 
 
