@@ -12,6 +12,11 @@ pdt.startTimer = function() {
 }
 
 pdt.getTimeRemaining = function() {
+    /**
+     * Returns a date object containing the difference between now and 
+     * the target date as a Unix date stamp
+     */
+
     if (pdt.isRunning) {
         let remaining = pdt.target - Date.now();
 
@@ -30,24 +35,31 @@ pdt.getTimeRemaining = function() {
 
 pdt.incrementInterval =  function() {
     console.log("increment interval");
-    pdt.interval++;
+    if (pdt.interval < 1000) {
+        pdt.interval++;
+    }
 }
 
 pdt.decrementInterval = function() {
     console.log("decrement interval");
-    pdt.interval--;
+    if (pdt.interval > 1) {
+        pdt.interval--;
+    }
 }
 
-pdt.incrementPeriod = function() {
+pdt.incrementDuration = function() {
     console.log("incrementPeriod");
-    pdt.duration++;
+    if (pdt.duration < 1000) {
+        pdt.duration += 5;
+    }
 }
     
-pdt.decrementPeriod = function() {
-    console.log("incrementPeriod");
-    pdt.duration--;
+pdt.decrementDuration = function() {
+    console.log("decrementPeriod");
+    if (pdt.duration > 1) {
+        pdt.duration -= 5;
+    }
 }
-
 
 window.onload = function(){
     var displayTime = document.getElementById("time");
@@ -67,12 +79,12 @@ window.onload = function(){
                 intervalVal.innerHTML = pdt.interval;
                 break;
             case "incrPeriod":
-                pdt.incrementPeriod();
+                pdt.incrementDuration();
                 periodVal.innerHTML = pdt.duration;
                 displayTime.innerHTML = pdt.duration + ":00";
                 break;
             case "decrPeriod":
-                pdt.decrementPeriod();
+                pdt.decrementDuration();
                 periodVal.innerHTML = pdt.duration;
                 displayTime.innerHTML = pdt.duration + ":00";
                 break;
