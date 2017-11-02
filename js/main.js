@@ -62,6 +62,18 @@ pdt.decrementDuration = function() {
 }
 
 window.onload = function(){
+    var ctx = document.getElementById("canvasVisual");
+    var ctx = ctx.getContext("2d");
+    function visualisation() {
+        ctx.beginPath();
+        ctx.arc(100, 100, 80, 0, 2*Math.PI);
+        ctx.strokeStyle = "#0269B4";
+        ctx.lineWidth = 15;
+        ctx.stroke();
+    }
+
+    visualisation();
+
     var displayTime = document.getElementById("time");
     var startButton = document.getElementById("start");
     var intervalVal = document.getElementById("interval");
@@ -104,14 +116,3 @@ window.onload = function(){
         }
     }, true);
 }
-
-
-
-
-
-
-
-
-
-
-
