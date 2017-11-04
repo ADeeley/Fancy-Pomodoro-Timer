@@ -16,7 +16,6 @@ pdt.getTimeRemaining = function() {
      * Returns a date object containing the difference between now and 
      * the target date as a Unix date stamp
      */
-
     if (pdt.isRunning) {
         let remaining = pdt.target - Date.now();
 
@@ -62,9 +61,8 @@ pdt.decrementDuration = function() {
 }
     
 function Visualisation(ctx, duration) {
-
     this.tick = (2*Math.PI) / (pdt.duration * 60);
-    this.currentArc = 0; 
+    this.currentArc = this.tick; 
 
     this.draw = function() {
         console.log("currentArc = " + this.currentArc);
