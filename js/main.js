@@ -60,19 +60,28 @@ pdt.decrementDuration = function() {
         pdt.duration -= 5;
     }
 }
+    
+function Visualisation(ctx, duration) {
 
-window.onload = function(){
-    var ctx = document.getElementById("canvasVisual");
-    var ctx = ctx.getContext("2d");
-    function visualisation() {
+    this.tick = (2*Math.PI) / (pdt.duration * 60);
+    this.currentArc = 0; 
+
+    this.draw = function() {
+        console.log("currentArc = " + this.currentArc);
+        console.log("Tick = " + this.tick);
+        this.currentArc += this.tick;
         ctx.beginPath();
-        ctx.arc(100, 100, 80, 0, 2*Math.PI);
+        ctx.arc(100, 100, 80, 1.5*Math.PI, 1.5*Math.PI + this.currentArc);
         ctx.strokeStyle = "#0269B4";
         ctx.lineWidth = 15;
         ctx.stroke();
     }
+}
 
-    visualisation();
+window.onload = function(){
+    var ctx = document.getElementById("canvasVisual");
+    var ctx = ctx.getContext("2d");
+
 
     var displayTime = document.getElementById("time");
     var startButton = document.getElementById("start");
@@ -101,6 +110,7 @@ window.onload = function(){
                 displayTime.innerHTML = pdt.duration + ":00";
                 break;
             case "start":
+                var vis = new Visualisation(ctx, pdt.duration / 60 / 1000);
                 pdt.startTimer();
                 let remaining = pdt.getTimeRemaining();
                 displayTime.innerHTML = remaining.min + ":" + remaining.sec;
@@ -108,6 +118,7 @@ window.onload = function(){
                 setInterval(function() {
                     let remaining = pdt.getTimeRemaining();
                     displayTime.innerHTML = remaining.min + ":" + remaining.sec;
+                    vis.draw();
                 }, 1000);
                 break;
             case "reset":
