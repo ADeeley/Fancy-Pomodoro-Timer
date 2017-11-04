@@ -1,6 +1,6 @@
 var pdt = new Object();
     // Variables for time
-    pdt.duration = 25;
+    pdt.duration = 1;
     pdt.interval = 5;
     pdt.isRunning = false;
     pdt.target = 0;
@@ -115,8 +115,12 @@ window.onload = function(){
                 let remaining = pdt.getTimeRemaining();
                 displayTime.innerHTML = remaining.min + ":" + remaining.sec;
                 // Main loop
-                setInterval(function() {
+                var intervalID = setInterval(function() {
                     let remaining = pdt.getTimeRemaining();
+                    if (remaining.min <= 0 && remaining.sec <= 0) {
+                        //clear visualisation
+                        clearInterval(intervalID);
+                    }
                     displayTime.innerHTML = remaining.min + ":" + remaining.sec;
                     vis.draw();
                 }, 1000);
