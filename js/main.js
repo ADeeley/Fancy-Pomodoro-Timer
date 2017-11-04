@@ -74,12 +74,18 @@ function Visualisation(ctx, duration) {
         ctx.lineWidth = 15;
         ctx.stroke();
     }
+
+    this.clear = function() {
+        let canvas = document.getElementById("canvasVisual");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        console.log("cleared canvas");
+    }
 }
 
 window.onload = function(){
     var ctx = document.getElementById("canvasVisual");
     var ctx = ctx.getContext("2d");
-
+    var vis;
 
     var displayTime = document.getElementById("time");
     var startButton = document.getElementById("start");
@@ -108,7 +114,8 @@ window.onload = function(){
                 displayTime.innerHTML = pdt.duration + ":00";
                 break;
             case "start":
-                var vis = new Visualisation(ctx, pdt.duration / 60 / 1000);
+                vis = new Visualisation(ctx, pdt.duration / 60 / 1000);
+                vis.clear();
                 pdt.startTimer();
                 let remaining = pdt.getTimeRemaining();
                 displayTime.innerHTML = remaining.min + ":" + remaining.sec;
@@ -125,6 +132,7 @@ window.onload = function(){
                 break;
             case "reset":
                 console.log("Reset pressed");
+                vis.clear();
                 break;
         }
     }, true);
